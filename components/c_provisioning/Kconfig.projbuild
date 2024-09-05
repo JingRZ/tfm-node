@@ -1,0 +1,64 @@
+menu "Provisioning Configuration"
+
+    choice PROV_TRANSPORT
+        bool "Provisioning Transport"
+        default EXAMPLE_PROV_TRANSPORT_SOFTAP if IDF_TARGET_ESP32S2
+        default EXAMPLE_PROV_TRANSPORT_BLE
+        help
+            Wi-Fi provisioning component offers both, SoftAP and BLE transports. Choose any one.
+
+        config EXAMPLE_PROV_TRANSPORT_BLE
+            bool "BLE"
+            select BT_ENABLED
+            depends on !IDF_TARGET_ESP32S2
+        config EXAMPLE_PROV_TRANSPORT_SOFTAP
+            bool "Soft AP"
+            select LWIP_IPV4
+    endchoice
+
+    choice PROV_SECURITY_VERSION
+        bool "Protocomm security version"
+        default PROV_SECURITY_VERSION_2
+        help
+            Wi-Fi provisioning component offers 3 security versions.
+            The example offers a choice between security version 1 and 2.
+
+        config PROV_SECURITY_VERSION_1
+            bool "Security version 1"
+            select ESP_PROTOCOMM_SUPPORT_SECURITY_VERSION_1
+
+        config PROV_SECURITY_VERSION_2
+            bool "Security version 2"
+            select ESP_PROTOCOMM_SUPPORT_SECURITY_VERSION_2
+    endchoice
+
+    config PROV_TRANSPORT
+        int
+        default 1 if EXAMPLE_PROV_TRANSPORT_BLE
+        default 2 if EXAMPLE_PROV_TRANSPORT_SOFTAP
+
+    config PROV_RESET_MGR_ON_FAILURE
+        bool
+        default y
+        prompt "Reset provisioned credentials and state machine after session failure"
+        help
+            Enable reseting provisioned credentials and state machine after session failure.
+            This will restart the provisioning service after retries are exhausted.
+
+    config PROV_MGR_MAX_RETRY_CNT
+        int
+        default 5
+        prompt "Max retries before reseting provisioning state machine"
+        depends on EXAMPLE_RESET_PROV_MGR_ON_FAILURE
+        help
+            Set the Maximum retry to avoid reconnecting to an inexistent AP or if credentials
+            are misconfigured. Provisioned credentials are erased and internal state machine
+            is reset after this threshold is reached.
+
+    config PROV_SHOW_QR
+        bool "Show provisioning QR code"
+        default y
+        help
+            Show the QR code for provisioning.
+
+endmenu

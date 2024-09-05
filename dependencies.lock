@@ -1,0 +1,21 @@
+dependencies:
+  espressif/cmake_utilities:
+    component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 0.5.3
+  espressif__button:
+    component_hash: null
+    source:
+      path: /home/jiing/Documents/ESP32/TFM/sample_project/components/espressif__button
+      type: local
+    version: 3.2.2
+  idf:
+    component_hash: null
+    source:
+      type: idf
+    version: 5.2.0
+manifest_hash: f295a27a0a06ac43a8e5446204135b8e372ba8237566ba501d57dd916c868b9b
+target: esp32c6
+version: 1.0.0

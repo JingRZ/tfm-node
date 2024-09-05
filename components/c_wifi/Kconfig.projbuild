@@ -1,0 +1,67 @@
+menu "WIFI Connection Configuration"
+
+    config C_WIFI_SSID
+        string "WiFi SSID"
+        default "MiFibra-ED4A"
+        help
+            SSID (network name) to connect to.
+
+    config C_WIFI_PWD
+        string "WiFi Password"
+        default "wMUS3eAS"
+        help
+            WiFi password (WPA or WPA2) to use.
+
+    choice C_WIFI_SAE_MODE
+        prompt "WPA3 SAE mode selection"
+        default C_WIFI_WPA3_SAE_PWE_BOTH
+        help
+            Select mode for SAE as Hunt and Peck, H2E or both.
+        config C_WIFI_WPA3_SAE_PWE_HUNT_AND_PECK
+            bool "HUNT AND PECK"
+        config C_WIFI_WPA3_SAE_PWE_HASH_TO_ELEMENT
+            bool "H2E"
+        config C_WIFI_WPA3_SAE_PWE_BOTH
+            bool "BOTH"
+    endchoice
+
+    config C_WIFI_PWD_ID
+        string "PASSWORD IDENTIFIER"
+        depends on  C_WIFI_WPA3_SAE_PWE_HASH_TO_ELEMENT|| C_WIFI_WPA3_SAE_PWE_BOTH
+        default ""
+        help
+            password identifier for SAE H2E
+
+    config C_WIFI_MAXIMUM_RETRY
+        int "Maximum retry"
+        default 5
+        help
+            Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+    choice C_WIFI_SCAN_AUTH_MODE_THRESHOLD
+        prompt "WiFi Scan auth mode threshold"
+        default C_WIFI_AUTH_WPA2_PSK
+        help
+            The weakest authmode to accept in the scan mode.
+            This value defaults to ESP_WIFI_AUTH_WPA2_PSK incase password is present and ESP_WIFI_AUTH_OPEN is used.
+            Please select ESP_WIFI_AUTH_WEP/ESP_WIFI_AUTH_WPA_PSK incase AP is operating in WEP/WPA mode.
+
+        config C_WIFI_AUTH_OPEN
+            bool "OPEN"
+        config C_WIFI_AUTH_WEP
+            bool "WEP"
+        config C_WIFI_AUTH_WPA_PSK
+            bool "WPA PSK"
+        config C_WIFI_AUTH_WPA2_PSK
+            bool "WPA2 PSK"
+        config C_WIFI_AUTH_WPA_WPA2_PSK
+            bool "WPA/WPA2 PSK"
+        config C_WIFI_AUTH_WPA3_PSK
+            bool "WPA3 PSK"
+        config C_WIFI_AUTH_WPA2_WPA3_PSK
+            bool "WPA2/WPA3 PSK"
+        config C_WIFI_AUTH_WAPI_PSK
+            bool "WAPI PSK"
+    endchoice
+
+endmenu

@@ -1,0 +1,1 @@
+python3 esp_prov.py --transport softap --ssid ssid_here --passphrase pwd_here --sec_ver 1 --pop abcd1234 --custom_data '{"tb":{"token":"da_token_here", "broker_url": "da_broker_url_here"}}'

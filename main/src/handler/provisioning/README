@@ -1,0 +1,2 @@
+## provisioning_ui.py
+Run this file to get an UI to do the provisioning process. Just connect to the AP of the ESP and press submit after changing the data and its done.
